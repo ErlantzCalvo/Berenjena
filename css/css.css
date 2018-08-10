@@ -1,0 +1,100 @@
+.error
+{
+ border:1px solid red;
+}
+
+.fine{
+  border:1px solid #81d742;
+}
+@font-face {
+      font-family: Anime;
+      src: url('animeace2_reg.ttf');
+    }
+@font-face {
+			font-style: italic;
+			src: url('animeace2_ital.ttf');
+		}
+
+    @font-face {
+			font-weight: bold;
+			src: url('animeace2_bld.ttf');
+		}
+
+
+body {
+  border: solid #c68fc6 1px;
+  text-align: center;
+  font-family: Anime;
+  overflow: hidden;
+  background-color:rgba(239, 234, 239,0.95);
+  border-radius: 3px;
+}
+h1 {
+   -webkit-text-stroke: 1px black;
+   color: #751d79;
+   font-family: Anime;
+   text-shadow:
+       3px 3px 0 #000,
+     -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+       1px 1px 0 #000;
+}
+
+#wrapper {
+
+  min-height: 100%;
+  height: auto !important;
+  margin-bottom: -20px;
+}
+
+#wrapper:after {
+  content: "";
+  display: block;
+  height: 50px;
+}
+
+footer {
+  font-size: 10px;
+  height: 20px;
+  color: grey;
+}
+
+.noselect {
+	  -webkit-touch-callout: none;
+	    -webkit-user-select: none;
+			-webkit-user-drag: none;
+	     -khtml-user-select: none;
+	       -moz-user-select: none;
+	        -ms-user-select: none;
+	            user-select: none;
+							user-drag: none;
+							cursor: default;
+	}
+#angryEggplant {
+  position: absolute;
+  top:105%;
+  width: 100px;
+  height: 100px;
+
+}
+#btnClose {
+  background-color:#7f4682; /*rgb(253,79,79)*/
+}
+
+.close-thik:after {
+  content: '✖'; /* UTF-8 symbol */
+}
+
+/* Dialog */
+
+
+[class*='close-'] {
+  color: #777;
+  font: 25px/100% arial, sans-serif;
+  position: absolute;
+  right: 5px;
+  text-decoration: none;
+  text-shadow: 0 1px 0 #fff;
+  top: 5px;
+}

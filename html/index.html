@@ -1,0 +1,43 @@
+<html>
+<head><title>Berenjena</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foundation for Sites</title>
+  <link rel="stylesheet" href="../css/fcss/foundation.css">
+  <link rel="stylesheet" href="../css/css.css">
+  <link rel="stylesheet" href="../css/fcss/app.css">
+  <link rel="stylesheet" href="../foundation-icons/foundation-icons.css" />
+
+<script src="../js/downloader.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="../js/jquery.min.js"></script>
+
+
+
+</head>
+<body class="noselect">
+<div id="wrapper">
+  <div class="dialog">
+  <a href="#" onclick="closeApp()"class="close-thik"></a>
+</div>
+<h1 >BERENJENA</h1>
+<input type="text" id="txtLink" oninput="linkChanged(this.value)" placeholder="Insert Youtube link">
+<a href="#" onclick="downloadMedia(false)" draggable="false" class="button">Download video</a>
+<a href="#" onclick="downloadMedia(true)" draggable="false" class="button">Download audio</a>
+<a href="#" onclick="selectFolderenjena()" draggable="false" class="button">
+<i class="step fi-folder size-72"></i> Save in...
+</a>
+<div class="progress" id="pbDownload" style="display: none" role="progressbar" tabindex="0" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+  <span class="progress-meter" id="pbDownloadStatus">
+  <p class="progress-meter-text" id="pbText"></p></span>
+</div>
+<div id="angryEggplant" style="display: none"><img src="../img/Eggplant.png" alt="Angry Eggplant"></div>
+</div>
+<footer class="noselect">Erlantz Calvo</footer>
+<script src="../js/fjs/vendor/jquery.js"></script>
+<script src="../js/fjs/vendor/what-input.js"></script>
+<script src="../js/fjs/vendor/foundation.js"></script>
+<script src="../js/fjs/app.js"></script>
+</body>
+</html>
