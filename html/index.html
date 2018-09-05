@@ -19,20 +19,23 @@
 <body class="noselect">
 <div id="wrapper">
   <div class="dialog">
-  <a href="#" onclick="closeApp()"class="close-thik"></a>
-</div>
+  <a href="#" onclick="require('electron').remote.BrowserWindow.getFocusedWindow().minimize()" class="minimize-thik noselect"></a>
+  <a href="#" onclick="closeApp()"class="close-thik noselect"></a>
+  </div>
 <h1 >BERENJENA</h1>
 <input type="text" id="txtLink" oninput="linkChanged(this.value)" placeholder="Insert Youtube link">
-<a href="#" onclick="downloadMedia(false)" draggable="false" class="button">Download video</a>
-<a href="#" onclick="downloadMedia(true)" draggable="false" class="button">Download audio</a>
-<a href="#" onclick="selectFolderenjena()" draggable="false" class="button">
-<i class="step fi-folder size-72"></i> Save in...
+<a href="#"  id="btnVideo" onclick="downloadMedia(false)" draggable="false" disabled="disabled" class="button tooltip">Download video<span class="tooltiptext">Download youtube video in <strong>MP4</strong> format</span></a>
+<a href="#" id="btnAudio" onclick="downloadMedia(true)" draggable="false" disabled ="disabled" class="button tooltip">Download audio<span class="tooltiptext">Download youtube audio in <strong>MP3</strong> format</span></a>
+<a href="#" onclick="selectFolderenjena()" draggable="false" class="button tooltip">
+<i class="step fi-folder size-72"></i> Save in...<span class="tooltiptext">Select the place where the files are going to save</span>
 </a>
 <div class="progress" id="pbDownload" style="display: none" role="progressbar" tabindex="0" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
   <span class="progress-meter" id="pbDownloadStatus">
   <p class="progress-meter-text" id="pbText"></p></span>
 </div>
-<div id="angryEggplant" style="display: none"><img src="../img/Eggplant.png" alt="Angry Eggplant"></div>
+<br>
+<span id="downloadedVideos"></span>
+<div id="angryEggplant" style="display: none" onclick="splash()"><img src="../img/Eggplant.png" alt="Angry Eggplant" draggable="false"></div>
 </div>
 <footer class="noselect">Erlantz Calvo</footer>
 <script src="../js/fjs/vendor/jquery.js"></script>

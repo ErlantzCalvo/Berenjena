@@ -74,6 +74,7 @@ footer {
 #angryEggplant {
   position: absolute;
   top:105%;
+  left:50%;
   width: 100px;
   height: 100px;
 
@@ -83,9 +84,12 @@ footer {
 }
 
 .close-thik:after {
-  content: '✖'; /* UTF-8 symbol */
+  content: '✖';
 }
 
+.minimize-thik:after {
+  content: '-';
+}
 /* Dialog */
 
 
@@ -97,4 +101,40 @@ footer {
   text-decoration: none;
   text-shadow: 0 1px 0 #fff;
   top: 5px;
+}
+
+[class*='minimize-'] {
+  color: #777;
+  font: 50px/100% arial, sans-serif;
+  position: absolute;
+  right: 40px;
+  text-decoration: none;
+  text-shadow: 0 1px 0 #fff;
+  top: -10px;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted ;
+    background-color:  #751d79;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #b57fb5;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px 10px 10px 10px;
+    margin:20px;
+    line-height: 150%;
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
 }
