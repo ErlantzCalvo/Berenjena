@@ -1,4 +1,4 @@
 $ cat .gitattributes
-*.rb linguist-language=electron js
-*.rb linguist-vendored=electron js
+*.rb linguist-language=Javascript
+*.rb linguist-vendored=Javascript
 jc_ansiterm_0.1/* linguist-vendored=true
