@@ -1,0 +1,15 @@
+# Foundation css
+- (^|/)foundation\.(css|less|scss|styl)$
+
+# Node dependencies
+- node_modules/
+
+# Minified JavaScript and CSS
+- (\.|-)min\.(js|css)$
+
+# jQuery
+- (^|/)jquery([^.]*)\.js$
+- (^|/)jquery\-\d\.\d+(\.\d+)?\.js$
+
+# Foundation js
+- foundation(\..*)?\.js$
