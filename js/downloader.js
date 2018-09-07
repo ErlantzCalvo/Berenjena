@@ -3,9 +3,10 @@ const ytdl = require('ytdl-core')
 const readline = require('readline')
 const ffmpeg = require('fluent-ffmpeg')
 const {dialog,app, screen} = require('electron').remote
-const urlExists = require('url-exists')
+var resolve = require('path').resolve
 
-ffmpeg.setFfmpegPath('./bin/ffmpeg')
+
+ffmpeg.setFfmpegPath('./bin/ffmpeg.exe')
 
 var myApp ={          title:"",
                       berenjeno:null,
@@ -13,11 +14,18 @@ var myApp ={          title:"",
                       url:"",
                       downloading:false,
                       folderenjena:app.getPath('desktop')+"\\",
-                      API_KEY:"YOUR API KEY"
+                      API_KEY:"AIzaSyCrHCa6q4yjUqGD9JNqd54wNP5UbUI14UU"
                       }
+
+var convertingAnimation ={wdt:0,
+                          front:true}
+
+var failedToDownload={cont:0,
+                      titles:[]}
 
 
 function linkChanged(text){
+  failedToDownload.cont=0
     if (ytdl.validateURL(text)) {
       myApp.validURL=true
       myApp.url=text
@@ -83,16 +91,30 @@ return new Promise((resolve)=>{
       }
     }
 
-    if (!existsURL())return alert("I can't connect with any video with the link posted.\n\nPlease check the link.")
+    if (!existsURL()){
+      failedToDownload.cont++
+      document.getElementById("btnVideo").removeAttribute("disabled")
+      document.getElementById("btnAudio").removeAttribute("disabled")
+      resolve(false)
+      return}
+
     if (myApp.berenjeno===null) myApp.berenjeno=setInterval(angryBerenjena,5000)
 
 
     let video = ytdl(myApp.url)
+     ytdl.getInfo(myApp.url,async (err,info)=>{
+      if (err!==null || info==undefined){
+        failedToDownload.cont++
+        document.getElementById("btnVideo").removeAttribute("disabled")
+        document.getElementById("btnAudio").removeAttribute("disabled")
+        resolve(false)
+      return}
 
-    video.on('info',function(info){
       myApp.title=info.title.replace(/[^a-zA-Z ]/g, "")
       video.pipe(fs.createWriteStream(myApp.folderenjena+myApp.title+".mp4"));
+
     })
+
     let auxTitle = myApp.title
     video.once('response', () => {
     document.getElementById("pbDownload").style.display="block"
@@ -127,9 +149,11 @@ return new Promise((resolve)=>{
 }else{alert("invalid link")
       resolve(false)
     }
+
 })
 
 }
+
 
 function downloadingProcess(chunkLength, downloaded, total){
   document.getElementById("pbDownload").setAttribute("aria-valuemax",total)
@@ -150,11 +174,16 @@ readline.moveCursor(process.stdout, 0, -1);
 
  function downloadAudio(mp4FileTitle){
 return new Promise((resolve)=>{
+
+  document.getElementById("mp3Loading").style.display="block"
+  convertingAnimation.wdt=0
+
     var proc = new ffmpeg({source:myApp.folderenjena+mp4FileTitle+'.mp4'})
-        .setFfmpegPath("./bin/ffmpeg")
         .toFormat('mp3')
+        .setFfmpegPath("./bin/ffmpeg.exe")
         .saveToFile(myApp.folderenjena+mp4FileTitle+'.mp3').on('end',function(){
           removeVideo(myApp.folderenjena+mp4FileTitle+'.mp4')
+          document.getElementById("mp3Loading").style.display="none"
           resolve(true)
         })
 
@@ -182,28 +211,50 @@ return new Promise((resolve)=>{
 async function downloadPlaylistSynchronous(audio,videoList){
   if (Object.keys(videoList)[0]!=="error") {
   let downloadedVideos= document.getElementById("downloadedVideos")
+  let failedVideos= document.getElementById("downloadFailed")
   for (var i = 0; i < videoList.items.length; i++) {
-    downloadedVideos.innerHTML="Downloaded videos: "+i+"/"+videoList.items.length
+    downloadedVideos.innerHTML="Downloaded files: "+i+"/"+videoList.items.length
+    failedVideos.innerHTML="Failed downloads: "+failedToDownload.cont
     myApp.url="https://www.youtube.com/watch?v="+videoList.items[i].snippet.resourceId.videoId;
     myApp.title=videoList.items[i].snippet.title.replace(/[^a-zA-Z ]/g, "");
-    await downloadMedia(audio)
+    let response=await downloadMedia(audio)
+    if (!response) {
+       addError(videoList.items[i].snippet.title)
+    }
       }
       downloadedVideos.innerHTML=""
+      failedVideos.innerHTML=""
+      document.getElementById("failedList").innerHTML=""
+      myApp.url=document.getElementById("txtLink").innerHTML
     }
 }
 
 function downloadPlaylistAsynchronous(audio,videoList){
   if (Object.keys(videoList)[0]!=="error") {
   let downloadedVideos= document.getElementById("downloadedVideos")
-
+  let failedVideos= document.getElementById("downloadFailed")
   for (var i = 0; i < videoList.items.length; i++) {
-    downloadedVideos.innerHTML="Downloaded videos: "+i+"/"+videoList.items.length
+    downloadedVideos.innerHTML="Downloaded files: "+i+"/"+videoList.items.length
+    failedVideos.innerHTML="Failed downloads: "+failedToDownload.cont
     myApp.url="https://www.youtube.com/watch?v="+videoList.items[i].snippet.resourceId.videoId;
     myApp.title=videoList.items[i].snippet.title.replace(/[^a-zA-Z ]/g, "");
-    downloadMedia(audio)
+    let response = downloadMedia(audio)
+    if (!response) {
+       addError(videoList.items[i].snippet.title)
+    }
       }
       downloadedVideos.innerHTML=""
+      document.getElementById("failedList").innerHTML=""
+      failedVideos.innerHTML=""
+      myApp.url=document.getElementById("txtLink").innerHTML
     }
+  }
+
+  function addError(title){
+    let li= document.createElement("LI")
+    li.innerHTML=title
+    document.getElementById("failedList").appendChild(li)
+
   }
 
 function angryBerenjena(){
@@ -216,8 +267,18 @@ function angryBerenjena(){
   }else{
     $("#angryEggplant").animate({left: '+='+rand*400+'px'}, 100).animate({top: '-='+rand*600+'px'}, rand*2000).animate({top: '+='+rand*600+'px'},rand*2000).animate({left: '-='+rand*400+'px'}, 100)
   }
+}
 
-
+  function mp3ConvertingAnimation(){
+    if (convertingAnimation.front && convertingAnimation.wdt<100) {
+    document.getElementById("pbDownloadStatus").setAttribute("style","width:"+convertingAnimation.wdt+"%")
+    convertingAnimation.wdt++
+  }else if (!convertingAnimation.front && convertingAnimation.wdt>0) {
+    document.getElementById("pbDownloadStatus").setAttribute("style","width:"+convertingAnimation.wdt+"%")
+    convertingAnimation.wdt--
+  }else {
+    convertingAnimation.front=!convertingAnimation.front
+  }
 
 }
 
