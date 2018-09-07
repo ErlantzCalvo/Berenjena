@@ -8,8 +8,7 @@
 - (\.|-)min\.(js|css)$
 
 # jQuery
-- (^|/)jquery([^.]*)\.js$
-- (^|/)jquery\-\d\.\d+(\.\d+)?\.js$
+- (^|/)jquery(.*)
 
 # Foundation js
 - foundation(\..*)?\.js$
