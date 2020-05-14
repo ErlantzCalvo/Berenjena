@@ -14,7 +14,7 @@ var myApp ={          title:"",
                       url:"",
                       downloading:false,
                       folderenjena:app.getPath('desktop')+"\\",
-                      API_KEY:"AIzaSyCrHCa6q4yjUqGD9JNqd54wNP5UbUI14UU"
+                      API_KEY:"Your api key"
                       }
 
 var convertingAnimation ={wdt:0,
