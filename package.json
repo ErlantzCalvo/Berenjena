@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/Erlantzcalvo/Berenjena#readme",
   "devDependencies": {
-    "electron": "^2.0.6"
+    "electron": "^10.1.5"
   },
   "dependencies": {
     "fluent-ffmpeg": "^2.1.2",
